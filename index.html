@@ -187,18 +187,46 @@ section{scroll-margin-top:90px}
 .stat .lb{display:block;margin-top:6px;font:700 14px var(--display);color:var(--gold-l)}
 .stat .sub{display:block;margin-top:2px;font-size:14px;color:#A9B6C9}
 
-/* buyers */
-.buyers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
-@media (max-width:1100px){.buyers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:620px){.buyers{grid-template-columns:1fr}}
-.buyer{background:var(--white);border-radius:24px;overflow:hidden;box-shadow:0 12px 30px rgba(19,40,74,.08);display:flex;flex-direction:column}
-.buyer .ph{height:200px;overflow:hidden}
-.buyer .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.buyer:hover .ph img{transform:scale(1.05)}
-.buyer .body{padding:22px 24px;display:flex;flex-direction:column;gap:8px}
-.buyer h3{font-size:20px}
-.buyer p{margin:0;color:var(--muted)}
-.buyer.icon .body{padding:28px 24px;gap:12px}
+/* buyers: bento grid */
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:minmax(300px,auto) minmax(220px,auto);gap:22px}
+.bento .b-lab{grid-row:1/3}
+.bento .b-farm{grid-column:2/4}
+@media (max-width:980px){.bento{grid-template-columns:1fr 1fr;grid-template-rows:auto}.bento .b-lab{grid-row:auto;grid-column:1/-1;min-height:340px}.bento .b-farm{grid-column:1/-1}}
+@media (max-width:620px){.bento{grid-template-columns:1fr}.bento > *{grid-column:auto!important}}
+.bc{position:relative;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:260px;isolation:isolate;transition:transform .35s,box-shadow .35s;box-shadow:0 14px 34px rgba(19,40,74,.10)}
+.bc:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(19,40,74,.18)}
+.bc .bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.bc:hover .bg{transform:scale(1.07)}
+.bc.photo::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,26,51,0) 30%,rgba(11,26,51,.88) 100%)}
+.bc .in{padding:26px;display:flex;flex-direction:column;gap:10px}
+.bc h3{font-size:24px;color:#fff}
+.bc p{margin:0;color:#DCE3EE}
+.bc .num{position:absolute;top:20px;left:22px;font:800 12px var(--display);letter-spacing:.2em;color:var(--gold-l)}
+.bc.photo .num{background:rgba(11,26,51,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:6px 12px;border-radius:999px;border:1px solid rgba(197,164,109,.45)}
+.rec{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 12.5px var(--display);color:var(--navy-d);background:var(--gold);padding:6px 12px;border-radius:999px;transition:background .25s}
+.rec::after{content:"→";transition:transform .25s}
+.bc:hover .rec::after{transform:translateX(4px)}
+.rec:hover{background:var(--gold-l)}
+.bpts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:#E9EDF4}
+.bpts span{display:inline-flex;align-items:center;gap:6px}
+.bpts span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.bc.navy{background:radial-gradient(420px 260px at 85% 10%,#21437A 0%,var(--navy) 60%,var(--navy-d) 100%)}
+.bc.navy .art{position:absolute;right:18px;top:18px;width:110px;height:auto;z-index:-1;transition:transform .5s}
+.bc.navy:hover .art{transform:translateY(-6px) rotate(-4deg)}
+.bc.navy .in a.lk{color:var(--gold-l);font:700 14px var(--display);text-decoration:none}
+.bc.navy .in a.lk:hover{color:#fff}
+.bc.ivory{background:linear-gradient(120deg,#FFFFFF 0%,var(--gold-xl) 100%);box-shadow:0 0 0 1px var(--gold-l),0 14px 34px rgba(19,40,74,.08)}
+.bc.ivory::before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(168,134,77,.22) 1.2px,transparent 1.4px);background-size:18px 18px;mask-image:linear-gradient(270deg,#000,transparent 70%);-webkit-mask-image:linear-gradient(270deg,#000,transparent 70%)}
+.bc.ivory h3{color:var(--navy)}
+.bc.ivory p{color:var(--muted)}
+.bc.ivory .bpts{color:var(--navy)}
+.bc.ivory .num{color:var(--gold-d)}
+.bc.ivory .in{flex-direction:row;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 28px}
+.bc.ivory .txt{display:flex;flex-direction:column;gap:10px;max-width:520px;min-width:0}
+.bc.ivory .big{display:flex;align-items:center;gap:14px}
+.bc.ivory .big .ic{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;background:var(--navy);box-shadow:0 10px 24px rgba(19,40,74,.25)}
+.bc.ivory .big b{font:900 34px/1 var(--display);color:var(--navy)}
+.bc.ivory .big small{display:block;font:600 13px var(--display);color:var(--muted)}
 
 /* why */
 .why{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFFFFF 0%,#FBF7EE 100%);border-block:1px solid var(--line)}
@@ -450,11 +478,47 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
     <div><div class="eyebrow">Applications</div><h2>Who buys from us</h2></div>
     <p>From research facilities to pet shops, one consistent product.</p>
   </div>
-  <div class="buyers">
-    <div class="buyer"><div class="ph"><img src="assets/lab.jpg" alt="Laboratory rodent cages filled with corn cob bedding" loading="lazy"></div><div class="body"><h3>Research labs &amp; CROs</h3><p>Autoclavable bedding for rodent facilities, with a test report for every lot.</p></div></div>
-    <div class="buyer"><div class="ph"><img src="assets/pet.jpg" alt="Hamster on corn cob bedding" loading="lazy"></div><div class="body"><h3>Pet product distributors</h3><p>Bulk supply for small-animal and bird bedding ranges.</p></div></div>
-    <div class="buyer icon"><div class="body"><span class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13284A" stroke-width="2" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8l9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><h3>Private-label brands</h3><p>Retail pouches of 1 L, 5 L and 10 L printed with your brand.</p></div></div>
-    <div class="buyer icon"><div class="body"><span class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13284A" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg></span><h3>Poultry &amp; farms</h3><p>Absorbent litter in 15–25 kg bags, by the container.</p></div></div>
+  <div class="bento">
+    <article class="bc photo b-lab">
+      <img class="bg" src="assets/lab.jpg" alt="Laboratory rodent cages filled with corn cob bedding" loading="lazy">
+      <span class="num">LABORATORIES</span>
+      <div class="in">
+        <h3>Research labs &amp; CROs</h3>
+        <p>Autoclavable bedding for rodent facilities, with a test report for every lot.</p>
+        <div class="bpts"><span>Autoclavable</span><span>Low dust</span><span>COA per lot</span></div>
+        <a class="rec" href="#products">Recommended: Standard 3–5 mm</a>
+      </div>
+    </article>
+    <article class="bc photo b-pet">
+      <img class="bg" src="assets/pet.jpg" alt="Hamster on corn cob bedding" loading="lazy">
+      <span class="num">PET TRADE</span>
+      <div class="in">
+        <h3>Pet product distributors</h3>
+        <p>Bulk supply for small-animal and bird bedding ranges.</p>
+        <a class="rec" href="#products">Recommended: Fine &amp; Standard</a>
+      </div>
+    </article>
+    <article class="bc navy b-pl">
+      <svg class="art" viewBox="0 0 120 150" aria-hidden="true"><path d="M14 16 H106 L110 136 Q111 148 98 148 H22 Q9 148 10 136 Z" fill="#FAF7F0"/><rect x="14" y="12" width="92" height="12" rx="2" fill="#C5A46D"/><circle cx="60" cy="18" r="3" fill="#13284A"/><text x="60" y="58" text-anchor="middle" textLength="70" lengthAdjust="spacingAndGlyphs" font-family="Montserrat, Arial" font-weight="800" font-size="12" fill="#13284A">YOUR BRAND</text><path d="M40 66 H80" stroke="#C5A46D" stroke-width="1.5"/><rect x="30" y="76" width="60" height="44" rx="9" fill="#E9C979" stroke="#E6D9BF" stroke-width="2"/><rect x="44" y="126" width="32" height="12" rx="6" fill="#13284A"/><text x="60" y="135" text-anchor="middle" font-family="Montserrat, Arial" font-weight="700" font-size="7" fill="#E7D6B4">5 L</text></svg>
+      <span class="num">BRANDS</span>
+      <div class="in">
+        <h3>Private-label brands</h3>
+        <p>Retail pouches of 1 L, 5 L and 10 L printed with your brand.</p>
+        <a class="lk" href="#private">See private label →</a>
+      </div>
+    </article>
+    <article class="bc ivory b-farm">
+      <span class="num">FARMS</span>
+      <div class="in">
+        <div class="txt">
+          <h3>Poultry &amp; farms</h3>
+          <p>Absorbent litter in 15–25 kg bags, by the container.</p>
+          <div class="bpts"><span>Keeps litter dry</span><span>Natural, no additives</span><span>20' / 40' loads</span></div>
+        </div>
+        <div class="big"><span class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E7D6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c2-6 6-9 11-9 2 0 4 1 5 3-2 0-3 1-3 3 0 3-3 3-5 3H4z"/><path d="M15 11c0-3-2-6-5-7 0 3 1 5 3 6"/><circle cx="16.5" cy="14" r=".6" fill="#E7D6B4"/></svg></span><div><b>4–6 mm</b><small>Coarse grade</small></div></div>
+        <a class="rec" href="#products">Recommended: Coarse 4–6 mm</a>
+      </div>
+    </article>
   </div>
 </div></section>
 
