@@ -87,6 +87,10 @@ header.open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
 @media (prefers-reduced-motion:reduce){header nav .btn::after{animation:none;display:none}}
 
 /* hero */
+.hero{position:relative;overflow:hidden}
+.hero > .wrap{position:relative;z-index:1}
+.hero-map{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(38% 55% at 18% 48%,rgba(250,247,240,.8) 0%,rgba(250,247,240,0) 100%)}
 .hero .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:48px;padding-block:64px 88px}
 .hero-copy{flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:22px}
 .hero h1{font-size:clamp(36px,5vw,60px);line-height:1.06;font-weight:800;letter-spacing:-.01em}
@@ -303,7 +307,7 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
 </div></header>
 
 <main>
-<section class="hero" id="top"><div class="wrap">
+<section class="hero" id="top"><canvas class="hero-map" id="hero-map" aria-hidden="true"></canvas><div class="wrap">
   <div class="hero-copy">
     <div class="chips"><span>HSN 2308</span><span>Lab tested</span><span>FOB / CIF</span><span>Made in India</span></div>
     <h1>Natural animal bedding, <span class="hl">shipped from India</span> to your warehouse.</h1>
@@ -656,6 +660,54 @@ document.getElementById("enquiry").addEventListener("submit", e => {
     const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-45% 0px -50% 0px"});
     ["products","buyers","why","export","private","quote","top"].forEach(id=>{const el=document.getElementById(id); if(el) io.observe(el)});
   }
+})();
+/* Hero: dotted world map with gold export routes from Surat */
+(function(){
+  const cv=document.getElementById("hero-map"); if(!cv||!cv.getContext) return;
+  const ctx=cv.getContext("2d"), hero=cv.parentElement;
+  // Land spans per 5-degree latitude band: [lat, [lonStart, lonEnd], ...]
+  const L=[[70,[-165,-140],[-125,-70],[-55,-20],[15,30],[40,180]],[65,[-165,-140],[-140,-85],[-80,-62],[-52,-35],[-22,-14],[12,30],[30,180]],
+  [60,[-160,-140],[-140,-95],[-80,-65],[-48,-42],[5,30],[30,165]],[55,[-130,-80],[-68,-58],[-6,0],[8,40],[40,140],[156,163]],
+  [50,[-125,-55],[-5,1],[0,40],[40,140]],[45,[-124,-65],[-1,40],[40,135],[141,145]],[40,[-124,-74],[-9,3],[9,18],[20,45],[45,120],[126,129],[139,142]],
+  [35,[-120,-76],[-6,10],[25,50],[60,120],[132,140]],[30,[-115,-81],[-10,32],[35,60],[60,122]],[25,[-110,-97],[-81,-80],[-15,35],[38,57],[67,92],[98,120]],
+  [20,[-105,-87],[-84,-74],[-17,40],[40,58],[70,87],[93,110]],[15,[-92,-83],[-17,43],[43,52],[74,81],[97,109],[120,124]],
+  [10,[-85,-61],[-15,45],[76,80],[98,106],[122,126]],[5,[-78,-52],[-8,48],[100,104],[114,118]],[0,[-80,-50],[9,42],[99,104],[109,118],[120,125]],
+  [-5,[-81,-35],[12,40],[105,115],[132,150]],[-10,[-78,-36],[13,40],[130,150]],[-15,[-75,-39],[12,40],[44,50],[124,145]],
+  [-20,[-70,-40],[13,35],[44,48],[114,149]],[-25,[-70,-47],[15,33],[113,153]],[-30,[-71,-50],[17,31],[115,153]],
+  [-35,[-72,-56],[18,26],[116,140],[143,150]],[-40,[-73,-62],[172,178]],[-45,[-74,-66],[167,171]],[-50,[-75,-68]]];
+  const home={lon:72.8,lat:21.2}, dest=[{lon:55.3,lat:25.2},{lon:4.5,lat:51.9},{lon:103.8,lat:1.35},{lon:139.7,lat:35.7},{lon:-74,lat:40.7}];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W,H,dpr,mx,my,mw,mh,dots=[],base=document.createElement("canvas"),running=true,t0=performance.now();
+  const P=(lon,lat)=>[mx+(lon+180)/360*mw, my+(75-lat)/131*mh];
+  function build(){
+    dpr=Math.min(devicePixelRatio||1,2); W=hero.clientWidth; H=hero.clientHeight;
+    cv.width=base.width=W*dpr; cv.height=base.height=H*dpr;
+    mw=Math.max(W*1.15,900); mh=mw*131/360; mx=W*(W<900?0.55:0.5)-(home.lon+180)/360*mw; my=(H-mh)/2-H*0.04;
+    dots=[]; const step=W<700?3.6:2.6;
+    L.forEach(([lat,...sp])=>{for(let la=lat;la>lat-5;la-=step){sp.forEach(([a,b])=>{for(let lo=a;lo<=b;lo+=step){dots.push(P(lo,la))}})}});
+    const b=base.getContext("2d"); b.setTransform(dpr,0,0,dpr,0,0); b.clearRect(0,0,W,H); b.fillStyle="rgba(19,40,74,.24)";
+    dots.forEach(([x,y])=>{b.beginPath();b.arc(x,y,1.3,0,7);b.fill()});
+  }
+  function curve(a,b){const [x1,y1]=P(a.lon,a.lat),[x2,y2]=P(b.lon,b.lat);const d=Math.hypot(x2-x1,y2-y1);return [x1,y1,(x1+x2)/2,(y1+y2)/2-d*0.35,x2,y2]}
+  const q=(c,t)=>{const u=1-t;return [u*u*c[0]+2*u*t*c[2]+t*t*c[4], u*u*c[1]+2*u*t*c[3]+t*t*c[5]]};
+  function frame(now){
+    if(!running) return;
+    const t=(now-t0)/1000; ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height); ctx.drawImage(base,0,0); ctx.setTransform(dpr,0,0,dpr,0,0);
+    for(let i=0;i<14;i++){const k=Math.floor((i*997+Math.floor(t*0.6+i*0.37)*131)%dots.length),a=(Math.sin(t*1.6+i)+1)/2,[x,y]=dots[k]||[0,0];ctx.fillStyle=`rgba(197,164,109,${0.25+0.55*a})`;ctx.beginPath();ctx.arc(x,y,1.9,0,7);ctx.fill()}
+    dest.forEach((d,i)=>{
+      const c=curve(home,d), cyc=6.5, ph=((t+i*1.3)%cyc)/cyc, prog=reduce?1:Math.min(ph/0.55,1), fade=reduce?1:(ph<0.8?1:1-(ph-0.8)/0.2);
+      ctx.strokeStyle=`rgba(197,164,109,${0.75*fade})`; ctx.lineWidth=1.6; ctx.setLineDash([3,5]); ctx.beginPath();
+      for(let s=0;s<=40;s++){const [x,y]=q(c,prog*s/40); s?ctx.lineTo(x,y):ctx.moveTo(x,y)} ctx.stroke(); ctx.setLineDash([]);
+      if(!reduce && prog<1){const [hx,hy]=q(c,prog);const g=ctx.createRadialGradient(hx,hy,0,hx,hy,9);g.addColorStop(0,"rgba(231,214,180,.95)");g.addColorStop(1,"rgba(197,164,109,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(hx,hy,9,0,7);ctx.fill()}
+      if(prog>=1){const r=reduce?4:4+10*((ph-0.55)/0.45);ctx.strokeStyle=`rgba(197,164,109,${reduce?.7:0.8*(1-(ph-0.55)/0.45)})`;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(c[4],c[5],r,0,7);ctx.stroke();ctx.fillStyle="#C5A46D";ctx.beginPath();ctx.arc(c[4],c[5],3,0,7);ctx.fill()}
+    });
+    const [hx,hy]=P(home.lon,home.lat), pr=reduce?0:(t%2)/2; ctx.fillStyle="#13284A"; ctx.beginPath(); ctx.arc(hx,hy,4.5,0,7); ctx.fill();
+    ctx.strokeStyle=`rgba(19,40,74,${0.5*(1-pr)})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(hx,hy,5+12*pr,0,7); ctx.stroke();
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  build(); addEventListener("resize",()=>{build(); if(reduce) frame(performance.now())});
+  if("IntersectionObserver" in window && !reduce){new IntersectionObserver(es=>{const v=es[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame)} running=v}).observe(hero)}
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
