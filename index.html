@@ -100,13 +100,30 @@ header.open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
 .checks span{display:flex;align-items:center;gap:8px}
 .hero-pic{flex:1 1 420px;min-width:0;position:relative}
 .hero-pic .ph{aspect-ratio:5/4;max-width:100%;border-radius:220px 28px 28px 28px;background:url(assets/grit.jpg) center/cover;box-shadow:18px 18px 0 var(--gold-l)}
-.sample-card{position:absolute;left:-24px;bottom:-28px;background:var(--white);border-radius:18px;padding:14px 18px;display:flex;gap:14px;align-items:center;box-shadow:0 18px 36px rgba(19,40,74,.16)}
+.sample-card{position:absolute;left:-28px;bottom:-34px;z-index:2;background:var(--white);border:1px solid var(--gold-l);border-radius:20px;padding:16px 18px;display:flex;gap:14px;align-items:center;box-shadow:0 22px 44px rgba(19,40,74,.18);animation:sk-float 5s ease-in-out infinite}
+.sample-card::before{content:"";position:absolute;left:18px;right:18px;top:-1px;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--gold-l),var(--gold),var(--gold-l))}
+.sample-card .icon-box{background:linear-gradient(140deg,var(--gold-xl),var(--gold-l))}
+.sk-title{font:800 16px var(--display);color:var(--navy);display:flex;align-items:center;gap:8px}
+.sk-free{font:800 10px var(--display);letter-spacing:.12em;color:var(--navy-d);background:var(--gold);padding:2px 8px;border-radius:999px}
+.sk-items{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:13px;color:var(--muted)}
+.sk-items span{display:inline-flex;align-items:center;gap:5px}
+.sk-items span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.sk-link{display:inline-block;margin-top:6px;font:700 13px var(--display);color:var(--gold-d);text-decoration:none}
+.sk-link:hover{color:var(--navy)}
+@keyframes sk-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* markets */
-.markets{background:var(--white);border-block:1px solid var(--line)}
-.markets .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-block:18px}
-.markets small{font:700 11px var(--display);letter-spacing:.2em;color:var(--gold-d);margin-right:6px}
-.markets span{font:600 14px var(--display);color:var(--navy);background:var(--ivory);border-radius:999px;padding:5px 14px}
+.markets{position:relative;background:var(--navy);color:#fff;overflow:hidden;border-block:1px solid rgba(197,164,109,.35)}
+.markets-in{display:flex;align-items:center}
+.mk-label{flex:none;position:relative;z-index:2;display:flex;align-items:center;gap:10px;padding:16px max(20px,env(safe-area-inset-left)) 16px max(20px,env(safe-area-inset-left));background:var(--gold);color:var(--navy-d);font:800 12px var(--display);letter-spacing:.18em;clip-path:polygon(0 0,100% 0,calc(100% - 16px) 100%,0 100%);padding-right:34px}
+.mk-viewport{flex:1;min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mk-track{display:flex;width:max-content;animation:mk-scroll 38s linear infinite}
+.markets:hover .mk-track{animation-play-state:paused}
+.mk-track ul{display:flex;gap:10px;margin:0;padding:12px 5px;list-style:none}
+.mk-track li{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font:600 14px var(--display);color:#E9EDF4;padding:6px 14px;border:1px solid rgba(197,164,109,.35);border-radius:999px;background:rgba(255,255,255,.04)}
+.mk-track li b{font:800 10px var(--display);letter-spacing:.08em;color:var(--navy-d);background:var(--gold-l);border-radius:5px;padding:2px 5px}
+@keyframes mk-scroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mk-track{animation:none;flex-wrap:wrap}.mk-track ul[aria-hidden]{display:none}.sample-card{animation:none}}
 
 section{scroll-margin-top:90px}
 .sec{padding-block:100px}
@@ -115,17 +132,41 @@ section{scroll-margin-top:90px}
 .sec-head p{margin:0;max-width:400px;color:var(--muted)}
 
 /* grades */
-.grades{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-.grade{background:var(--white);border-radius:24px;overflow:hidden;box-shadow:0 12px 30px rgba(19,40,74,.08);display:flex;flex-direction:column;transition:transform .2s}
-.grade:hover{transform:translateY(-4px)}
-.grade .ph{height:210px;background:url(assets/grit.jpg) no-repeat;position:relative}
-.grade .ph span{position:absolute;top:14px;left:14px;background:var(--white);color:var(--navy);font:700 12px var(--display);padding:5px 12px;border-radius:999px;border:1px solid var(--gold)}
-.grade .body{padding:24px;display:flex;flex-direction:column;gap:8px}
+.grades{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+@media (max-width:980px){.grades{grid-template-columns:repeat(2,minmax(0,1fr))}.grades .grade:last-child{grid-column:1/-1}}
+@media (max-width:640px){.grades{grid-template-columns:1fr}.grades .grade:last-child{grid-column:auto}}
+.grade{position:relative;background:var(--white);border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(19,40,74,.08);display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s}
+.grade:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(19,40,74,.14)}
+.grade .ph{position:relative;height:190px;background:url(assets/grit.jpg) no-repeat;transition:background-size .6s}
+.grade .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,26,51,0) 45%,rgba(11,26,51,.55) 100%)}
+.grade .size{position:absolute;left:18px;bottom:14px;z-index:1;font:900 30px/1 var(--display);color:#fff;letter-spacing:-.01em}
+.grade .size small{font-size:14px;font-weight:700;margin-left:4px;color:var(--gold-l)}
+.grade .ribbon{position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--navy-d);font:800 10.5px var(--display);letter-spacing:.12em;padding:6px 12px;border-radius:999px;box-shadow:0 6px 14px rgba(11,26,51,.25)}
+.grade .ribbon::before{content:"★";font-size:11px}
+.grade .body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:14px;flex:1}
+.grade .ttl{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .grade h3{font-size:24px}
+.grade .gran{display:flex;align-items:flex-end;gap:4px;height:26px}
+.grade .gran i{display:block;background:linear-gradient(140deg,#F2D795,#C8902F);border-radius:30%}
 .grade p{margin:0;color:var(--muted)}
-.grade a{font-weight:600;color:var(--gold-d);text-decoration:none}
-.grade.feature{outline:2px solid var(--gold)}
-.grade.feature .ph span{background:var(--gold);color:var(--navy-d)}
+.scale{display:flex;flex-direction:column;gap:6px}
+.scale .bar{position:relative;height:10px;border-radius:99px;background:var(--gold-xl);box-shadow:inset 0 0 0 1px var(--line)}
+.scale .fill{position:absolute;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-d))}
+.scale .nums{display:flex;flex-direction:row;justify-content:space-between;font:600 11px var(--display);color:var(--muted)}
+.uses{display:flex;flex-wrap:wrap;gap:6px}
+.uses span{font:600 12.5px var(--display);color:var(--navy);background:var(--ivory);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.grade dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.grade dt{color:var(--muted)}
+.grade dd{margin:0;color:var(--navy);font-weight:600}
+.grade .go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font:700 14px var(--display);color:var(--navy);text-decoration:none}
+.grade .go::after{content:"→";color:var(--gold-d);transition:transform .25s}
+.grade:hover .go::after{transform:translateX(5px)}
+.grade.feature{box-shadow:0 0 0 2px var(--gold),0 18px 40px rgba(19,40,74,.14)}
+.grade.feature .go{color:#fff;background:var(--navy);padding:10px 16px;border-radius:999px;align-self:flex-start}
+.grade.feature .go::after{color:var(--gold-l)}
+.grades-note{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-radius:20px;background:var(--white);border:1px dashed var(--gold)}
+.grades-note .pts{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--navy);font:600 14px var(--display)}
+.grades-note .pts span{display:inline-flex;align-items:center;gap:8px}
 
 /* stats */
 .stats{background:var(--white);border-block:1px solid var(--line)}
@@ -325,15 +366,17 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
   <div class="hero-pic">
     <div class="ph" role="img" aria-label="Corn cob grit pouring from a wooden scoop"></div>
     <div class="sample-card">
-      <span class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#13284A" stroke-width="2" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span>
-      <span><strong style="font-family:var(--display);color:var(--navy)">Free sample kit</strong><br><span style="font-size:14px;color:var(--muted)">1 kg of each grade + lab report</span></span>
+      <span class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13284A" stroke-width="2" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span>
+      <span><span class="sk-title">Sample kit <span class="sk-free">FREE</span></span>
+        <span class="sk-items"><span>3 grades × 1 kg</span><span>Lab report (COA)</span></span>
+        <a class="sk-link" href="#quote">Request your kit →</a></span>
     </div>
   </div>
 </div></section>
 
-<div class="markets"><div class="wrap">
-  <small>EXPORT-READY FOR</small>
-  <span>UAE</span><span>Saudi Arabia</span><span>Kuwait</span><span>Qatar</span><span>Malaysia</span><span>Singapore</span><span>Thailand</span><span>Netherlands</span><span>Germany</span><span>Japan</span>
+<div class="markets"><div class="markets-in">
+  <div class="mk-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B1A33" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>EXPORT-READY FOR</div>
+  <div class="mk-viewport"><div class="mk-track"><ul><li><b>AE</b>UAE</li><li><b>SA</b>Saudi Arabia</li><li><b>KW</b>Kuwait</li><li><b>QA</b>Qatar</li><li><b>MY</b>Malaysia</li><li><b>SG</b>Singapore</li><li><b>TH</b>Thailand</li><li><b>NL</b>Netherlands</li><li><b>DE</b>Germany</li><li><b>JP</b>Japan</li></ul><ul aria-hidden="true"><li><b>AE</b>UAE</li><li><b>SA</b>Saudi Arabia</li><li><b>KW</b>Kuwait</li><li><b>QA</b>Qatar</li><li><b>MY</b>Malaysia</li><li><b>SG</b>Singapore</li><li><b>TH</b>Thailand</li><li><b>NL</b>Netherlands</li><li><b>DE</b>Germany</li><li><b>JP</b>Japan</li></ul></div></div>
 </div></div>
 
 <section class="sec" id="products"><div class="wrap">
@@ -343,17 +386,42 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
   </div>
   <div class="grades">
     <article class="grade">
-      <div class="ph" style="background-size:260%;background-position:50% 95%"><span>1–2 mm</span></div>
-      <div class="body"><h3>Fine</h3><p>Soft and low-dust. For mice, small cages and nesting mixes.</p><a href="#quote">Ask for a sample →</a></div>
+      <div class="ph" style="background-size:260%;background-position:50% 95%"><span class="size">1–2<small>mm</small></span></div>
+      <div class="body">
+        <div class="ttl"><h3>Fine</h3><span class="gran" aria-hidden="true"><i style="width:6px;height:5px"></i><i style="width:7px;height:6px"></i><i style="width:6px;height:5px"></i><i style="width:7px;height:6px"></i></span></div>
+        <p>Soft and low-dust, for small cages and nesting mixes.</p>
+        <div class="scale" role="img" aria-label="Particle size 1 to 2 millimetres on a 0 to 8 millimetre scale"><div class="bar"><span class="fill" style="left:12.5%;width:12.5%"></span></div><div class="nums"><span>0</span><span>2</span><span>4</span><span>6</span><span>8 mm</span></div></div>
+        <div class="uses"><span>Mice</span><span>Hamsters</span><span>Nesting mix</span></div>
+        <dl><dt>Packing</dt><dd>15–20 kg bags · retail pouches</dd><dt>Sample</dt><dd>1 kg, free with lab report</dd></dl>
+        <a class="go" href="#quote">Ask for a sample</a>
+      </div>
     </article>
     <article class="grade feature">
-      <div class="ph" style="background-size:200%;background-position:40% 85%"><span>3–5 mm · Most requested</span></div>
-      <div class="body"><h3>Standard</h3><p>The lab standard for rats and mice. Autoclavable, high absorbency.</p><a href="#quote">Ask for a sample →</a></div>
+      <div class="ph" style="background-size:200%;background-position:40% 85%"><span class="ribbon">MOST REQUESTED</span><span class="size">3–5<small>mm</small></span></div>
+      <div class="body">
+        <div class="ttl"><h3>Standard</h3><span class="gran" aria-hidden="true"><i style="width:10px;height:8px"></i><i style="width:12px;height:10px"></i><i style="width:11px;height:9px"></i></span></div>
+        <p>The lab standard for rats and mice. Autoclavable, high absorbency.</p>
+        <div class="scale" role="img" aria-label="Particle size 3 to 5 millimetres on a 0 to 8 millimetre scale"><div class="bar"><span class="fill" style="left:37.5%;width:25.0%"></span></div><div class="nums"><span>0</span><span>2</span><span>4</span><span>6</span><span>8 mm</span></div></div>
+        <div class="uses"><span>Lab rats</span><span>Lab mice</span><span>Gerbils</span></div>
+        <dl><dt>Packing</dt><dd>15–25 kg bags</dd><dt>Sample</dt><dd>1 kg, free with lab report</dd></dl>
+        <a class="go" href="#quote">Ask for a sample</a>
+      </div>
     </article>
     <article class="grade">
-      <div class="ph" style="background-size:150%;background-position:60% 40%"><span>4–6 mm</span></div>
-      <div class="body"><h3>Coarse</h3><p>For rabbits, guinea pigs, birds and poultry litter.</p><a href="#quote">Ask for a sample →</a></div>
+      <div class="ph" style="background-size:150%;background-position:60% 40%"><span class="size">4–6<small>mm</small></span></div>
+      <div class="body">
+        <div class="ttl"><h3>Coarse</h3><span class="gran" aria-hidden="true"><i style="width:14px;height:12px"></i><i style="width:16px;height:14px"></i></span></div>
+        <p>Bigger granules for larger animals and poultry litter.</p>
+        <div class="scale" role="img" aria-label="Particle size 4 to 6 millimetres on a 0 to 8 millimetre scale"><div class="bar"><span class="fill" style="left:50.0%;width:25.0%"></span></div><div class="nums"><span>0</span><span>2</span><span>4</span><span>6</span><span>8 mm</span></div></div>
+        <div class="uses"><span>Rabbits</span><span>Guinea pigs</span><span>Birds</span><span>Poultry</span></div>
+        <dl><dt>Packing</dt><dd>15–25 kg bags</dd><dt>Sample</dt><dd>1 kg, free with lab report</dd></dl>
+        <a class="go" href="#quote">Ask for a sample</a>
+      </div>
     </article>
+  </div>
+  <div class="grades-note">
+    <div class="pts"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8864D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Custom sizes on request</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8864D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Dust-free, 100% natural</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8864D" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Lab report with every lot</span></div>
+    <a class="btn btn-gold" href="#quote" style="padding:12px 22px;font-size:15px">Not sure? Get all 3 in the free kit</a>
   </div>
 </div></section>
 
