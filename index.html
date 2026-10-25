@@ -212,8 +212,13 @@ section{scroll-margin-top:90px}
 .bpts span{display:inline-flex;align-items:center;gap:6px}
 .bpts span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
 .bc.navy{background:radial-gradient(420px 260px at 85% 10%,#21437A 0%,var(--navy) 60%,var(--navy-d) 100%)}
-.bc.navy .art{position:absolute;right:18px;top:18px;width:110px;height:auto;z-index:-1;transition:transform .5s}
-.bc.navy:hover .art{transform:translateY(-6px) rotate(-4deg)}
+.bc.navy .art{position:absolute;right:4px;top:8px;width:min(140px,38%);height:auto;z-index:-1;overflow:visible}
+.bc.navy .art g{transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-box:fill-box;transform-origin:50% 100%}
+.bc.navy:hover .art .bp-front{transform:translateY(-7px) rotate(2deg)}
+.bc.navy:hover .art .bp-back{transform:translateY(-4px) rotate(-12deg)}
+.bc.navy .in{max-width:60%}
+.bc.navy h3{font-size:20px;line-height:1.15}
+@media (max-width:620px){.bc.navy .in{max-width:none}.bc.navy{padding-top:150px}}
 .bc.navy .in a.lk{color:var(--gold-l);font:700 14px var(--display);text-decoration:none}
 .bc.navy .in a.lk:hover{color:#fff}
 .bc.ivory{background:linear-gradient(120deg,#FFFFFF 0%,var(--gold-xl) 100%);box-shadow:0 0 0 1px var(--gold-l),0 14px 34px rgba(19,40,74,.08)}
@@ -500,10 +505,57 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
       </div>
     </article>
     <article class="bc navy b-pl">
-      <svg class="art" viewBox="0 0 120 150" aria-hidden="true"><path d="M14 16 H106 L110 136 Q111 148 98 148 H22 Q9 148 10 136 Z" fill="#FAF7F0"/><rect x="14" y="12" width="92" height="12" rx="2" fill="#C5A46D"/><circle cx="60" cy="18" r="3" fill="#13284A"/><text x="60" y="58" text-anchor="middle" textLength="70" lengthAdjust="spacingAndGlyphs" font-family="Montserrat, Arial" font-weight="800" font-size="12" fill="#13284A">YOUR BRAND</text><path d="M40 66 H80" stroke="#C5A46D" stroke-width="1.5"/><rect x="30" y="76" width="60" height="44" rx="9" fill="#E9C979" stroke="#E6D9BF" stroke-width="2"/><rect x="44" y="126" width="32" height="12" rx="6" fill="#13284A"/><text x="60" y="135" text-anchor="middle" font-family="Montserrat, Arial" font-weight="700" font-size="7" fill="#E7D6B4">5 L</text></svg>
+      <svg class="art" viewBox="0 0 170 190" aria-hidden="true">
+        <defs>
+          <radialGradient id="bpHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#C5A46D" stop-opacity=".45"/><stop offset="1" stop-color="#C5A46D" stop-opacity="0"/></radialGradient>
+          <linearGradient id="bpIvory" x1="0" x2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F4ECDC"/><stop offset="1" stop-color="#DCCAA6"/></linearGradient>
+          <linearGradient id="bpGold" x1="0" x2="1"><stop offset="0" stop-color="#EAD9B6"/><stop offset=".5" stop-color="#C5A46D"/><stop offset="1" stop-color="#9C7A42"/></linearGradient>
+          <linearGradient id="bpSheen" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <pattern id="bpGran" width="12" height="10" patternUnits="userSpaceOnUse">
+            <rect width="12" height="10" fill="#E9C979"/>
+            <rect x="1" y="1" width="5" height="4" rx="1.6" fill="#D9A441" transform="rotate(15 3.5 3)"/>
+            <rect x="7" y="1.5" width="4" height="4" rx="1.6" fill="#F2D795"/>
+            <rect x="2" y="5.5" width="5" height="4" rx="1.6" fill="#C8902F" transform="rotate(-20 4.5 7.5)"/>
+            <rect x="7.5" y="6" width="4" height="3.5" rx="1.6" fill="#E2B455"/>
+          </pattern>
+          <filter id="bpShadow" x="-30%" y="-20%" width="160%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity=".35"/></filter>
+        </defs>
+        <circle cx="98" cy="96" r="80" fill="url(#bpHalo)"/>
+        <circle cx="98" cy="96" r="66" fill="none" stroke="#C5A46D" stroke-opacity=".5" stroke-width="1" stroke-dasharray="2 6" stroke-linecap="round"/>
+        <g class="bp-back" filter="url(#bpShadow)" transform="rotate(-9 46 110)">
+          <path d="M20 46 H78 L81 154 Q82 166 70 167 H28 Q16 166 17 154 Z" fill="url(#bpGold)"/>
+          <rect x="20" y="40" width="58" height="12" rx="2" fill="#13284A"/>
+          <circle cx="49" cy="46" r="2.6" fill="#C5A46D"/>
+          <text x="49" y="86" text-anchor="middle" textLength="40" lengthAdjust="spacingAndGlyphs" font-family="Montserrat, Arial" font-weight="800" font-size="8" fill="#13284A">YOUR BRAND</text>
+          <rect x="31" y="96" width="36" height="30" rx="7" fill="url(#bpGran)" stroke="#F4ECDC" stroke-width="1.5"/>
+          <rect x="37" y="138" width="24" height="11" rx="5.5" fill="#13284A"/>
+          <text x="49" y="146" text-anchor="middle" font-family="Montserrat, Arial" font-weight="700" font-size="6.5" fill="#E7D6B4">1 L</text>
+        </g>
+        <g class="bp-front" filter="url(#bpShadow)">
+          <path d="M66 24 H146 L150 160 Q151 175 136 176 H76 Q61 175 62 160 Z" fill="url(#bpIvory)"/>
+          <rect x="66" y="18" width="80" height="15" rx="2.5" fill="url(#bpGold)"/>
+          <path d="M70 22 v7 M75 22 v7 M80 22 v7 M85 22 v7 M127 22 v7 M132 22 v7 M137 22 v7 M142 22 v7" stroke="#9C7A42" stroke-width="1"/>
+          <circle cx="106" cy="25.5" r="3.2" fill="#13284A"/>
+          <path d="M66 36 l4 3 -4 3 M146 36 l-4 3 4 3" fill="#DCCAA6"/>
+          <path d="M68 46 H144" stroke="#C5A46D" stroke-width="1.2" stroke-dasharray="4 2.5"/>
+          <circle cx="106" cy="64" r="10" fill="none" stroke="#C5A46D" stroke-width="1.3"/>
+          <path d="M101 67 q5 -10 10 0 M106 58 v10" fill="none" stroke="#13284A" stroke-width="1.4"/>
+          <text x="106" y="88" text-anchor="middle" textLength="62" lengthAdjust="spacingAndGlyphs" font-family="Montserrat, Arial" font-weight="800" font-size="11" fill="#13284A">YOUR BRAND</text>
+          <text x="106" y="97" text-anchor="middle" textLength="56" lengthAdjust="spacingAndGlyphs" font-family="Montserrat, Arial" font-weight="600" font-size="5.5" fill="#A8864D">CORN COB BEDDING</text>
+          <rect x="78" y="104" width="56" height="40" rx="10" fill="url(#bpGran)" stroke="#13284A" stroke-width="2"/>
+          <rect x="81" y="107" width="16" height="34" rx="7" fill="#fff" opacity=".22"/>
+          <rect x="92" y="152" width="28" height="13" rx="6.5" fill="#13284A"/>
+          <text x="106" y="161.5" text-anchor="middle" font-family="Montserrat, Arial" font-weight="800" font-size="7.5" fill="#E7D6B4">5 L</text>
+          <path d="M74 34 L77 162" stroke="url(#bpSheen)" stroke-width="9"/>
+        </g>
+        <g fill="#E7D6B4">
+          <path d="M28 22 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>
+          <path d="M158 112 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z" opacity=".8"/>
+        </g>
+      </svg>
       <span class="num">BRANDS</span>
       <div class="in">
-        <h3>Private-label brands</h3>
+        <h3><span style="white-space:nowrap">Private-label</span> brands</h3>
         <p>Retail pouches of 1 L, 5 L and 10 L printed with your brand.</p>
         <a class="lk" href="#private">See private label →</a>
       </div>
