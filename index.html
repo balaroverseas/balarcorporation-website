@@ -86,6 +86,19 @@ header.open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
 @media (max-width:600px){.topbar .grp.right .it,.topbar .grp:first-child .it+.it{display:none}.topbar .wrap{flex-wrap:nowrap;font-size:12.5px}}
 @media (prefers-reduced-motion:reduce){header nav .btn::after{animation:none;display:none}}
 
+/* language switcher (Google Translate, loads only when a non-English language is chosen) */
+.lang{position:relative;display:inline-flex;align-items:center}
+.lang svg{position:absolute;left:12px;pointer-events:none}
+.lang select{appearance:none;-webkit-appearance:none;font:600 14px var(--display);color:var(--navy);background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2313284A' stroke-width='2'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 12px center;border:1px solid var(--line);border-radius:999px;padding:9px 32px 9px 36px;cursor:pointer;max-width:100%}
+.lang select:hover{border-color:var(--gold)}
+@media (max-width:860px){.lang{display:flex}.lang select{width:100%;padding-block:12px}}
+.lang-note{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));z-index:29;display:flex;align-items:center;gap:10px;max-width:calc(100vw - 100px);background:var(--navy);color:#DCE3EE;font:600 12.5px var(--display);padding:8px 8px 8px 14px;border-radius:999px;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.lang-note[hidden]{display:none}
+.lang-note button{font:700 12px var(--display);color:var(--navy-d);background:var(--gold);border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+body{top:0!important}
+.goog-te-banner-frame,.skiptranslate iframe,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+.goog-text-highlight{background:none!important;box-shadow:none!important}
+
 /* hero */
 .hero{position:relative;overflow:hidden}
 .hero > .wrap{position:relative;z-index:1}
@@ -405,6 +418,7 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
     <a href="#buyers">Applications</a>
     <a href="#why">Why us</a>
     <a href="#export">How we export</a>
+    <div class="lang notranslate" translate="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8864D" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><select id="site-lang" aria-label="Website language"><option value="en">English</option><option value="ar">العربية</option><option value="hi">हिन्दी</option><option value="gu">ગુજરાતી</option><option value="th">ไทย</option><option value="ms">Bahasa Melayu</option><option value="vi">Tiếng Việt</option><option value="zh-CN">简体中文</option></select></div>
     <a href="#quote" class="btn btn-navy">Request a quote <svg width="16" height="16" viewBox="0 0 24 24" fill="#E7D6B4" aria-hidden="true"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></a>
   </nav>
 </div></header>
@@ -816,6 +830,9 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
   <div class="wrap copy"><span>© <span id="yr">2026</span> Balar Corporation. All rights reserved.</span><a class="to-top" href="#top" aria-label="Back to top"><span class="ring" aria-hidden="true"></span><svg class="plane" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span class="lbl">TOP</span></a></div>
 </footer>
 
+<div id="gt-el" style="display:none" aria-hidden="true"></div>
+<div class="lang-note notranslate" id="lang-note" translate="no" hidden><span>Machine-translated. English is the original.</span><button type="button" id="lang-orig">English</button></div>
+
 <a class="wa-float" id="wa-float" href="#quote" aria-label="Chat on WhatsApp"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.6-.1 1.2z"/></svg></a>
 
 <script>
@@ -935,6 +952,25 @@ document.getElementById("enquiry").addEventListener("submit", e => {
   },{threshold:.4});
   io.observe(band);
   addEventListener("scroll",function f(){ if(band.getBoundingClientRect().bottom<0){ io.disconnect(); els.forEach(el=>el.textContent=el.dataset.to); removeEventListener("scroll",f)} },{passive:true});
+})();
+/* Language: Google Translate loads only after a non-English choice (cookie), so English visitors never call Google */
+(function(){
+  const sel=document.getElementById("site-lang"); if(!sel) return;
+  const note=document.getElementById("lang-note");
+  const m=document.cookie.match(/(?:^|; )googtrans=\/en\/([^;]+)/), cur=m?decodeURIComponent(m[1]):"en";
+  sel.value=[...sel.options].some(o=>o.value===cur)?cur:"en";
+  function setLang(v){
+    const host=location.hostname, root=host.replace(/^www\./,""), past="Thu, 01 Jan 1970 00:00:00 GMT";
+    ["",";domain="+host,";domain=."+root].forEach(d=>{document.cookie="googtrans="+(v==="en"?"":"/en/"+v)+";path=/"+d+(v==="en"?";expires="+past:"")});
+    location.reload();
+  }
+  sel.addEventListener("change",()=>setLang(sel.value));
+  document.getElementById("lang-orig").addEventListener("click",()=>setLang("en"));
+  if(sel.value!=="en"){
+    note.hidden=false;
+    window.googleTranslateElementInit=function(){new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"gt-el")};
+    const s=document.createElement("script"); s.src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"; document.head.appendChild(s);
+  }
 })();
 </script>
 </body>
