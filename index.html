@@ -953,22 +953,34 @@ document.getElementById("enquiry").addEventListener("submit", e => {
   io.observe(band);
   addEventListener("scroll",function f(){ if(band.getBoundingClientRect().bottom<0){ io.disconnect(); els.forEach(el=>el.textContent=el.dataset.to); removeEventListener("scroll",f)} },{passive:true});
 })();
-/* Language: Google Translate loads only after a non-English choice (cookie), so English visitors never call Google */
+/* Language: Google Translate loads only after a non-English choice. The choice is kept in localStorage; the widget is then driven through its own dropdown (more reliable than the googtrans cookie auto-start). */
 (function(){
   const sel=document.getElementById("site-lang"); if(!sel) return;
-  const note=document.getElementById("lang-note");
-  const m=document.cookie.match(/(?:^|; )googtrans=\/en\/([^;]+)/), cur=m?decodeURIComponent(m[1]):"en";
-  sel.value=[...sel.options].some(o=>o.value===cur)?cur:"en";
-  function setLang(v){
-    const host=location.hostname, root=host.replace(/^www\./,""), past="Thu, 01 Jan 1970 00:00:00 GMT";
-    ["",";domain="+host,";domain=."+root].forEach(d=>{document.cookie="googtrans="+(v==="en"?"":"/en/"+v)+";path=/"+d+(v==="en"?";expires="+past:"")});
-    location.reload();
-  }
-  sel.addEventListener("change",()=>setLang(sel.value));
-  document.getElementById("lang-orig").addEventListener("click",()=>setLang("en"));
+  const note=document.getElementById("lang-note"), KEY="balar_lang";
+  const get=()=>{try{return localStorage.getItem(KEY)||"en"}catch(e){return "en"}};
+  const put=v=>{try{v==="en"?localStorage.removeItem(KEY):localStorage.setItem(KEY,v)}catch(e){}};
+  const clearG=()=>{const h=location.hostname,r=h.replace(/^www\./,""),past="Thu, 01 Jan 1970 00:00:00 GMT";["",";domain="+h,";domain=."+r].forEach(d=>{document.cookie="googtrans=;path=/"+d+";expires="+past})};
+  const cur=get(); sel.value=[...sel.options].some(o=>o.value===cur)?cur:"en";
+  const go=v=>{put(v);clearG();location.reload()};
+  sel.addEventListener("change",()=>go(sel.value));
+  document.getElementById("lang-orig").addEventListener("click",()=>go("en"));
   if(sel.value!=="en"){
-    note.hidden=false;
-    window.googleTranslateElementInit=function(){new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"gt-el")};
+    clearG(); note.hidden=false;
+    window.googleTranslateElementInit=function(){
+      new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"gt-el");
+      /* Starting the translation before the widget has loaded its main module leaves it stuck, so wait for that module first, then retry if the text still did not change */
+      let tries=0, waited=0;
+      const ready=()=>{const c=document.querySelector("select.goog-te-combo");return c&&c.options.length>1&&performance.getEntriesByType("resource").some(r=>/m=el_main/.test(r.name))};
+      const fire=()=>{const c=document.querySelector("select.goog-te-combo");c.value=sel.value;c.dispatchEvent(new Event("change"))};
+      const check=()=>{
+        if(document.querySelectorAll("font").length>5||tries>=3) return;
+        const c=document.querySelector("select.goog-te-combo"); c.value="";c.dispatchEvent(new Event("change"));
+        setTimeout(()=>{tries++;fire();setTimeout(check,5000)},800);
+      };
+      const wait=setInterval(()=>{
+        if((ready()&&document.readyState==="complete")||++waited>150){clearInterval(wait); if(!document.querySelector("select.goog-te-combo")) return; tries=1; setTimeout(()=>{fire();setTimeout(check,5000)},2500)}
+      },200);
+    };
     const s=document.createElement("script"); s.src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"; document.head.appendChild(s);
   }
 })();
