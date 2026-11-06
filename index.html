@@ -402,7 +402,8 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
 /* mobile polish */
 @media (max-width:420px){.topbar .wrap{flex-wrap:wrap;justify-content:center;row-gap:4px}.topbar .grp{justify-content:center}}
 @media (max-width:700px){
-  .hero::after{display:none}
+  .hero-map{opacity:.5}
+  .hero::after{background:linear-gradient(180deg,rgba(250,247,240,.86) 0%,rgba(250,247,240,.8) 55%,rgba(250,247,240,.25) 85%,rgba(250,247,240,0) 100%)}
   .wa-float{width:50px;height:50px}
   .wa-float svg{width:26px;height:26px}
   .topbar a{display:inline-block;padding-block:6px}
