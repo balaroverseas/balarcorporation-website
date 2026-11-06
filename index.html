@@ -139,11 +139,11 @@ body{top:0!important}
 .mk-row.r2 .mk-track{animation:mk-right 62s linear infinite}
 @keyframes mk-left{to{transform:translateX(-33.3333%)}}
 @keyframes mk-right{from{transform:translateX(-33.3333%)}to{transform:translateX(0)}}
-.markets:hover .mk-track{animation-play-state:paused}
+@media (hover:hover){.markets:hover .mk-track{animation-play-state:paused}}
 .mk-track ul{display:flex;gap:12px;margin:0;padding:0 6px;list-style:none}
 .mk-track li{display:inline-flex;align-items:center;gap:11px;white-space:nowrap;padding:7px 18px 7px 10px;border:1px solid rgba(197,164,109,.3);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03));transition:transform .25s,border-color .25s}
 .mk-track li.gulf{border-color:rgba(231,214,180,.7);background:linear-gradient(180deg,rgba(197,164,109,.28),rgba(197,164,109,.08))}
-.mk-track li:hover{transform:translateY(-3px);border-color:var(--gold)}
+@media (hover:hover){.mk-track li:hover{transform:translateY(-3px);border-color:var(--gold)}}
 .fl{flex:none;display:block;width:30px;height:20px;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.25)}
 .nm{display:flex;flex-direction:column;line-height:1.15;font:700 14px var(--display);color:#fff}
 .nm small{margin-top:2px;font:700 10.5px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-l)}
@@ -271,8 +271,8 @@ section{scroll-margin-top:90px}
 .why-item:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(19,40,74,.14);border-color:var(--gold)}
 .why-item:hover::before{transform:scaleX(1)}
 .why-item .icon-box{background:linear-gradient(140deg,var(--gold-xl),var(--gold-l));box-shadow:inset 0 0 0 1px rgba(197,164,109,.45)}
-@keyframes why-pulse{0%{r:4;opacity:.9}100%{r:16;opacity:0}}
-.why-bg .pulse{animation:why-pulse 2.6s ease-out infinite}
+@keyframes why-pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(4);opacity:0}}
+.why-bg .pulse{transform-box:fill-box;transform-origin:center;vector-effect:non-scaling-stroke;animation:why-pulse 2.6s ease-out infinite}
 .why-bg .pulse.d2{animation-delay:-.9s}.why-bg .pulse.d3{animation-delay:-1.7s}
 @media (prefers-reduced-motion:reduce){.why-bg .pulse{animation:none;opacity:0}.why-bg .mover{display:none}}
 .why-item h3{font-size:20px}
@@ -402,8 +402,7 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
 /* mobile polish */
 @media (max-width:420px){.topbar .wrap{flex-wrap:wrap;justify-content:center;row-gap:4px}.topbar .grp{justify-content:center}}
 @media (max-width:700px){
-  .hero-map{opacity:.45}
-  .hero::after{background:linear-gradient(180deg,rgba(250,247,240,.75) 0%,rgba(250,247,240,.55) 55%,rgba(250,247,240,0) 100%)}
+  .hero::after{display:none}
   .wa-float{width:50px;height:50px}
   .wa-float svg{width:26px;height:26px}
   .topbar a{display:inline-block;padding-block:6px}
@@ -412,6 +411,27 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
   footer .ft-grid ul a{display:inline-block;padding-block:6px}
   footer .ft-grid ul{gap:2px}
   .contact-row a{display:inline-block;padding-block:8px}
+  .why .why-bg.d{display:none}
+  .why .why-bg.m{display:block}
+  .why-item{background:rgba(255,255,255,.62);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+.why-bg.m{display:none}
+/* touch screens: no hover, so a card "wakes up" when it is in the middle of the screen, and buttons react to a press */
+@media (hover:none){
+  .btn:active{transform:translateY(1px) scale(.98)}
+  .grade.tv{transform:translateY(-6px);box-shadow:0 22px 44px rgba(19,40,74,.14)}
+  .grade.tv .go::after{transform:translateX(5px)}
+  .stat.tv .ic{transform:translateY(-3px) rotate(-4deg);background:rgba(197,164,109,.24)}
+  .bc.tv{transform:translateY(-6px);box-shadow:0 24px 48px rgba(19,40,74,.18)}
+  .bc.tv .bg{transform:scale(1.07)}
+  .bc.tv .rec::after{transform:translateX(4px)}
+  .bc.navy.tv .art .bp-front{transform:translateY(-7px) rotate(2deg)}
+  .bc.navy.tv .art .bp-back{transform:translateY(-4px) rotate(-12deg)}
+  .why-item.tv{transform:translateY(-6px);box-shadow:0 22px 44px rgba(19,40,74,.14);border-color:var(--gold)}
+  .why-item.tv::before{transform:scaleX(1)}
+  .pl-art.tv .pl-front{transform:translateY(-10px) rotate(-1.5deg)}
+  .pl-art.tv .pl-small{transform:translateY(-6px) rotate(-3deg)}
+  .pl-art.tv .pl-bulk{transform:translateY(-4px) rotate(2deg)}
 }
 </style>
 </head>
@@ -618,7 +638,7 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
 </div></section>
 
 <section class="sec why" id="why">
-  <svg class="why-bg" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <svg class="why-bg d" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <radialGradient id="whyGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E7D6B4" stop-opacity=".55"/><stop offset="1" stop-color="#E7D6B4" stop-opacity="0"/></radialGradient>
       <path id="whyRoute" d="M-60 610 C 260 420, 520 300, 760 330 S 1180 170, 1520 120"/>
@@ -647,6 +667,27 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
       </g>
       <animateMotion dur="22s" repeatCount="indefinite" rotate="auto"><mpath href="#whyRoute"/></animateMotion>
     </g>
+  </svg>
+  <svg class="why-bg m" viewBox="0 0 400 1300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="whyGlowM" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E7D6B4" stop-opacity=".6"/><stop offset="1" stop-color="#E7D6B4" stop-opacity="0"/></radialGradient>
+      <path id="whyRouteM" d="M-30 380 C 120 300, 300 420, 200 640 S 60 900, 430 1010"/>
+    </defs>
+    <circle cx="340" cy="200" r="190" fill="url(#whyGlowM)"/>
+    <circle cx="40" cy="1130" r="170" fill="url(#whyGlowM)"/>
+    <g fill="none" stroke="#13284A" stroke-opacity=".13" stroke-width="1.5">
+      <circle cx="330" cy="230" r="150"/><ellipse cx="330" cy="230" rx="60" ry="150"/><ellipse cx="330" cy="230" rx="110" ry="150"/>
+      <path d="M180 230 H480 M196 130 H464 M196 330 H464"/>
+      <circle cx="50" cy="1120" r="120"/><ellipse cx="50" cy="1120" rx="50" ry="120"/><path d="M-70 1120 H170 M-55 1050 H155 M-55 1190 H155"/>
+    </g>
+    <use href="#whyRouteM" fill="none" stroke="#C5A46D" stroke-width="2.2" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <path d="M430 110 C 330 170, 210 90, -30 60" fill="none" stroke="#C5A46D" stroke-width="1.6" stroke-dasharray="2 10" stroke-linecap="round" opacity=".55"/>
+    <g fill="#C5A46D">
+      <circle cx="179" cy="398" r="5"/><circle class="pulse" cx="179" cy="398" r="4" fill="none" stroke="#C5A46D" stroke-width="2"/>
+      <circle cx="200" cy="640" r="5"/><circle class="pulse d2" cx="200" cy="640" r="4" fill="none" stroke="#C5A46D" stroke-width="2"/>
+      <circle cx="139" cy="866" r="5"/><circle class="pulse d3" cx="139" cy="866" r="4" fill="none" stroke="#C5A46D" stroke-width="2"/>
+    </g>
+    <g class="mover"><g transform="rotate(90) translate(-14 -14) scale(1.15)"><path fill="#13284A" fill-opacity=".85" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></g><animateMotion dur="20s" repeatCount="indefinite" rotate="auto"><mpath href="#whyRouteM"/></animateMotion></g>
   </svg>
   <div class="wrap">
   <div class="sec-head">
@@ -924,10 +965,14 @@ document.getElementById("enquiry").addEventListener("submit", e => {
   function build(){
     dpr=Math.min(devicePixelRatio||1,2); W=hero.clientWidth; H=hero.clientHeight;
     cv.width=base.width=W*dpr; cv.height=base.height=H*dpr;
-    mw=Math.max(W*1.15,900); mh=mw*131/360; mx=W*(W<900?0.55:0.5)-(home.lon+180)/360*mw; my=(H-mh)/2-H*0.04;
+    const phone=W<700;
+    mw=phone?Math.max(W*1.9,700):Math.max(W*1.15,900); mh=mw*131/360;
+    mx=W*(phone?0.5:(W<900?0.55:0.5))-(home.lon+180)/360*mw;
+    const hc=hero.querySelector(".hero-copy");
+    my=phone&&hc?(hc.getBoundingClientRect().top-hero.getBoundingClientRect().top+30):(H-mh)/2-H*0.04;
     dots=[]; const step=W<700?3.6:2.6;
     L.forEach(([lat,...sp])=>{for(let la=lat;la>lat-5;la-=step){sp.forEach(([a,b])=>{for(let lo=a;lo<=b;lo+=step){dots.push(P(lo,la))}})}});
-    const b=base.getContext("2d"); b.setTransform(dpr,0,0,dpr,0,0); b.clearRect(0,0,W,H); b.fillStyle="rgba(19,40,74,.24)";
+    const b=base.getContext("2d"); b.setTransform(dpr,0,0,dpr,0,0); b.clearRect(0,0,W,H); b.fillStyle=W<700?"rgba(19,40,74,.3)":"rgba(19,40,74,.24)";
     dots.forEach(([x,y])=>{b.beginPath();b.arc(x,y,1.3,0,7);b.fill()});
   }
   function curve(a,b){const [x1,y1]=P(a.lon,a.lat),[x2,y2]=P(b.lon,b.lat);const d=Math.hypot(x2-x1,y2-y1);return [x1,y1,(x1+x2)/2,(y1+y2)/2-d*0.35,x2,y2]}
@@ -947,7 +992,7 @@ document.getElementById("enquiry").addEventListener("submit", e => {
     ctx.strokeStyle=`rgba(19,40,74,${0.5*(1-pr)})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(hx,hy,5+12*pr,0,7); ctx.stroke();
     if(!reduce) requestAnimationFrame(frame);
   }
-  build(); addEventListener("resize",()=>{build(); if(reduce) frame(performance.now())});
+  build(); addEventListener("resize",()=>{build(); if(reduce) frame(performance.now())}); addEventListener("load",()=>{build(); if(reduce) frame(performance.now())});
   if("IntersectionObserver" in window && !reduce){new IntersectionObserver(es=>{const v=es[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame)} running=v}).observe(hero)}
   requestAnimationFrame(frame);
 })();
@@ -996,6 +1041,12 @@ document.getElementById("enquiry").addEventListener("submit", e => {
     };
     const s=document.createElement("script"); s.src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"; document.head.appendChild(s);
   }
+})();
+/* Touch screens: highlight the card that is in the middle of the screen (the phone version of hover) */
+(function(){
+  if(!matchMedia("(hover: none)").matches || !("IntersectionObserver" in window)) return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("tv",e.isIntersecting)),{rootMargin:"-30% 0px -30% 0px"});
+  document.querySelectorAll(".grade,.stat,.bc,.why-item,.pl-art").forEach(el=>io.observe(el));
 })();
 </script>
 </body>
