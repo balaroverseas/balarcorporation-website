@@ -365,8 +365,8 @@ footer .wrap{position:relative;z-index:1}
 .btn-wa{background:#25D366;color:#fff}.btn-wa:hover{background:#1EB257}
 .btn-glass{border:1.5px solid rgba(231,214,180,.6);color:var(--gold-l)}.btn-glass:hover{background:rgba(231,214,180,.12)}
 .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:36px;padding-block:56px 36px}
-@media (max-width:900px){.ft-grid{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.ft-grid{grid-template-columns:1fr}}
+@media (max-width:900px){.ft-grid{grid-template-columns:1fr 1fr}.ft-brand,.ft-grid .ft-contact-col{grid-column:1/-1}}
+@media (max-width:560px){.ft-contact{display:grid!important;grid-template-columns:1fr 1fr;gap:14px 12px!important}.ft-contact li:first-child{grid-column:1/-1}.ft-grid{gap:28px 18px;padding-block:44px 28px}.ft-grid ul a{font-size:14.5px}}
 .ft-grid h4{margin:0 0 14px;font:700 14px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:10px}
 .ft-grid h4::after{content:"";flex:1;max-width:40px;height:1px;background:var(--gold)}
 .ft-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
@@ -874,7 +874,7 @@ footer .wrap.copy{padding-right:max(96px,env(safe-area-inset-right))}
       </div>
       <div><h4>Explore</h4><ul><li><a href="#products">Products</a></li><li><a href="#buyers">Applications</a></li><li><a href="#why">Why Balar</a></li><li><a href="#export">How we export</a></li><li><a href="#private">Private label</a></li></ul></div>
       <div><h4>Products</h4><ul><li><a href="#products">Fine · 1–2 mm</a></li><li><a href="#products">Standard · 3–5 mm</a></li><li><a href="#products">Coarse · 4–6 mm</a></li><li><a href="#quote">Free sample kit</a></li></ul></div>
-      <div><h4>Contact</h4><ul class="ft-contact">
+      <div class="ft-contact-col"><h4>Contact</h4><ul class="ft-contact">
         <li><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C5A46D" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span><small>Email</small><a href="mailto:contact@balarcorporation.com">contact@balarcorporation.com</a></span></li>
         <li><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C5A46D" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12z"/></svg></span><span><small>WhatsApp</small><span id="ft-wa-num">+91 98989 77266</span></span></li>
         <li><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C5A46D" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><small>Location</small>Surat, Gujarat, India</span></li>
