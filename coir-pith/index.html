@@ -622,8 +622,10 @@ header nav a:not(.btn){white-space:nowrap}
     <div class="full btns">
       <button class="btn btn-gold" type="submit" data-via="whatsapp">Send on WhatsApp</button>
       <button class="btn btn-navy" type="submit" data-via="email">Send by email</button>
+      <button class="btn btn-line" type="submit" data-via="copy">Copy enquiry</button>
     </div>
-    <p class="full form-note">Your enquiry opens in WhatsApp or your email app, ready to send.</p>
+    <p class="full form-note">Your enquiry opens in WhatsApp or your email app, ready to send. No email app on this computer? Use Copy enquiry and paste it into any email to <span id="f-mail"></span>.</p>
+    <p class="full form-note" id="f-status" role="status" aria-live="polite" hidden></p>
   </form>
 </div></section>
 </main>
@@ -675,11 +677,18 @@ if (!/X/.test(WHATSAPP_NUMBER)) {
 }
 let via = "whatsapp";
 document.querySelectorAll("#enquiry button[data-via]").forEach(b => b.addEventListener("click", () => via = b.dataset.via));
+{const m=document.getElementById("f-mail"); if(m) m.textContent=EMAIL;}
 document.getElementById("enquiry").addEventListener("submit", e => {
   e.preventDefault();
   const v = id => document.getElementById(id).value.trim();
   const text = `Enquiry from balarcorporation website (coir pith)\nName: ${v("f-name")}\nCompany: ${v("f-company")}\nEmail: ${v("f-email")}\nCountry: ${v("f-country")}\nProduct: ${v("f-grade")}\nQuantity: ${v("f-qty")}\nMessage: ${v("f-msg")}`;
   if (via === "whatsapp") window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+  else if (via === "copy") {
+    const full = "To: " + EMAIL + "\n\n" + text, st = document.getElementById("f-status");
+    const done = ok => { st.hidden = false; st.textContent = ok ? "Enquiry copied. Paste it into an email to " + EMAIL + "." : "Could not copy automatically. Please select the text and email it to " + EMAIL + "."; if (!ok) { const ta = document.createElement("textarea"); ta.readOnly = true; ta.rows = 8; ta.value = full; ta.style.cssText = "display:block;width:100%;margin-top:8px"; st.appendChild(ta); ta.focus(); ta.select(); } };
+    const fallback = () => { const t = document.createElement("textarea"); t.value = full; t.style.position = "fixed"; t.style.opacity = "0"; document.body.appendChild(t); t.select(); let ok = false; try { ok = document.execCommand("copy") } catch (x) {} t.remove(); done(ok); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(full).then(() => done(true), fallback); else fallback();
+  }
   else location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Coir pith enquiry – " + v("f-company")) + "&body=" + encodeURIComponent(text);
 });
 /* How we export: steps slide in one by one, gold line fills with scroll */
