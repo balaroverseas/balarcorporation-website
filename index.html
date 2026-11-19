@@ -77,7 +77,7 @@ header.open .menu-btn span::before{transform:translateY(6px) rotate(45deg)}
 header.open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
 @media (max-width:1000px){
   .menu-btn{display:grid}
-  header nav{position:absolute;top:100%;left:max(20px,env(safe-area-inset-left));right:max(20px,env(safe-area-inset-right));flex-direction:column;align-items:stretch;gap:2px;padding:12px;background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 40px rgba(19,40,74,.16);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s}
+  header nav{position:absolute;top:100%;left:max(20px,env(safe-area-inset-left));right:max(20px,env(safe-area-inset-right));flex-direction:column;align-items:stretch;gap:2px;padding:12px;background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 40px rgba(19,40,74,.24);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s}
   header.open nav{opacity:1;visibility:visible;transform:none}
   header nav a:not(.btn){padding:12px 10px;border-radius:10px}
   header nav a:not(.btn)::after{display:none}
@@ -249,7 +249,7 @@ section{scroll-margin-top:90px}
 .bc.navy .in a.lk{color:var(--gold-l);font:700 14px var(--display);text-decoration:none}
 .bc.navy .in a.lk:hover{color:#fff}
 .bc.ivory{background:linear-gradient(120deg,#FFFFFF 0%,var(--gold-xl) 100%);box-shadow:0 0 0 1px var(--gold-l),0 14px 34px rgba(19,40,74,.08)}
-.bc.ivory::before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(168,134,77,.22) 1.2px,transparent 1.4px);background-size:18px 18px;mask-image:linear-gradient(270deg,#000,transparent 70%);-webkit-mask-image:linear-gradient(270deg,#000,transparent 70%)}
+.bc.ivory::before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(168,134,77,.36) 1.2px,transparent 1.4px);background-size:18px 18px;mask-image:linear-gradient(270deg,#000,transparent 70%);-webkit-mask-image:linear-gradient(270deg,#000,transparent 70%)}
 .bc.ivory h3{color:var(--navy)}
 .bc.ivory p{color:var(--muted)}
 .bc.ivory .bpts{color:var(--navy)}
@@ -444,6 +444,55 @@ header nav a:not(.btn){white-space:nowrap}
 .also-txt{display:flex;flex-direction:column;gap:8px;max-width:640px}
 .also-h{font:800 clamp(24px,2.6vw,32px)/1.1 var(--display);color:var(--navy)}
 .also-p{color:var(--muted)}
+#more{position:relative;overflow:hidden;isolation:isolate}
+#more>.wrap{position:relative;z-index:1}
+#more .bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#more .bg i{position:absolute;border-radius:50%;filter:blur(46px);will-change:transform}
+#more .bg .o1{width:380px;height:380px;left:-90px;top:-60px;background:radial-gradient(circle,rgba(197,164,109,.6),rgba(197,164,109,0) 70%);animation:orbA 16s ease-in-out infinite alternate}
+#more .bg .o2{width:420px;height:420px;right:-110px;bottom:-120px;background:radial-gradient(circle,rgba(19,40,74,.24),rgba(19,40,74,0) 70%);animation:orbB 19s ease-in-out infinite alternate}
+#more .bg .o3{width:260px;height:260px;left:46%;top:30%;background:radial-gradient(circle,rgba(168,134,77,.36),rgba(168,134,77,0) 70%);animation:orbC 14s ease-in-out infinite alternate}
+#more .bg b{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;animation:dotUp 9s linear infinite}
+#more .bg b:nth-of-type(1){left:12%;bottom:-10px;animation-delay:0s}
+#more .bg b:nth-of-type(2){left:28%;bottom:-10px;animation-delay:2.4s;width:5px;height:5px}
+#more .bg b:nth-of-type(3){left:52%;bottom:-10px;animation-delay:5s}
+#more .bg b:nth-of-type(4){left:71%;bottom:-10px;animation-delay:1.2s;width:5px;height:5px}
+#more .bg b:nth-of-type(5){left:88%;bottom:-10px;animation-delay:6.5s}
+@keyframes orbA{to{transform:translate(160px,70px) scale(1.2)}}
+@keyframes orbB{to{transform:translate(-170px,-60px) scale(1.15)}}
+@keyframes orbC{to{transform:translate(-120px,60px) scale(.85)}}
+@keyframes dotUp{0%{transform:translateY(0);opacity:0}15%{opacity:.8}85%{opacity:.5}100%{transform:translateY(-420px);opacity:0}}
+@media(max-width:760px){#more .bg .o1,#more .bg .o2{width:240px;height:240px}#more .bg .o3{display:none}}
+@media(prefers-reduced-motion:reduce){#more .bg i,#more .bg b{animation:none}#more .bg b{display:none}}
+.also-row{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.also{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;padding:0;overflow:hidden}
+.also-pic{position:relative;height:230px;overflow:hidden;background:var(--gold-xl)}
+.also-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:alsoFade 12s infinite,alsoZoom 12s ease-out infinite}
+.also-pic img:nth-child(2){animation-delay:4s}
+.also-pic img:nth-child(3){animation-delay:8s}
+.also-pic img:first-child{opacity:1}
+@keyframes alsoFade{0%{opacity:0}6%{opacity:1}33%{opacity:1}40%{opacity:0}100%{opacity:0}}
+@keyframes alsoZoom{0%{transform:scale(1)}40%{transform:scale(1.09)}100%{transform:scale(1.09)}}
+.also-tags{position:absolute;left:14px;bottom:14px;display:flex;flex-wrap:wrap;gap:6px;z-index:2}
+.also-tags span{font:700 12px/1 var(--body,inherit);color:var(--navy);background:rgba(255,255,255,.92);padding:7px 11px;border-radius:99px;box-shadow:0 2px 8px rgba(19,40,74,.12)}
+.also-pic.trip{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:#fff}
+.also-pic.trip img{position:static;opacity:1;animation:none;transform:scale(1);transition:transform .7s ease;min-height:0}
+.also-pic.trip .tp{position:relative;overflow:hidden}
+.also-pic.trip .tp img{position:absolute;inset:0;animation:tripIn .9s ease both,tripZoom 9s ease-in-out infinite alternate}
+.also-pic.trip .tp:nth-child(2) img{animation-delay:.12s,.12s}
+.also-pic.trip .tp:nth-child(3) img{animation-delay:.24s,.24s}
+@keyframes tripIn{from{opacity:0;transform:translateY(22px) scale(1.08)}to{opacity:1;transform:none}}
+@keyframes tripZoom{from{transform:scale(1)}to{transform:scale(1.07)}}
+@media(prefers-reduced-motion:reduce){.also-pic.trip .tp img{animation:none}}
+.also .btn{transition:transform .3s}
+.also:hover .btn{transform:translateX(4px)}
+.also.pre{opacity:0;transform:translateY(28px)}
+.also-row .also{transition:opacity .7s ease,transform .7s ease,box-shadow .3s}
+.also-row .also:nth-child(2){transition-delay:.15s}
+.also.pre:hover{transform:translateY(28px)}
+@media(prefers-reduced-motion:reduce){.also-pic img{animation:none}.also-pic img:not(:first-child){display:none}.also.pre{opacity:1;transform:none}}
+.also-body{display:flex;flex-direction:column;gap:14px;align-items:flex-start;padding:26px 30px 30px}
+.also-txt{max-width:none}
+@media(max-width:760px){.also-row{grid-template-columns:1fr}.also-pic{height:190px}.also-body{padding:22px 22px 26px}}
 header .logo{flex:none}
 @media (min-width:1001px) and (max-width:1100px){header .logo img,header.scrolled .logo img{height:36px}header .wrap{gap:10px}header nav{gap:6px 11px;font-size:13px}header nav .btn{padding:10px 14px;font-size:13px}.lang select{font-size:13px;padding:8px 26px 8px 30px}.lang svg{left:10px}}
 </style>
@@ -551,11 +600,23 @@ header .logo{flex:none}
   </div>
 </div></section>
 
-<section class="sec" id="more" style="padding-top:0"><div class="wrap">
-  <a class="also" href="coir-pith/">
-    <span class="also-txt"><span class="eyebrow">Also from Balar</span><span class="also-h">Coir pith (coco peat)</span><span class="also-p">Low EC and high EC, as blocks, bricks and loose bulk, for greenhouses, nurseries and landscaping. Specs on request.</span></span>
-    <span class="btn btn-navy">See coir pith →</span>
-  </a>
+<section class="sec" id="more" style="padding-top:0"><div class="bg" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i><b></b><b></b><b></b><b></b><b></b></div><div class="wrap">
+  <div class="also-row">
+    <a class="also" href="coir-pith/">
+      <div class="also-pic"><img src="assets/coir/hero.webp" alt="Coir pith (coco peat): loose, blocks and bricks" loading="lazy" decoding="async"><img src="assets/coir/block.webp" alt="" loading="lazy" decoding="async"><img src="assets/coir/loose.webp" alt="" loading="lazy" decoding="async"><div class="also-tags"><span>Blocks</span><span>Bricks</span><span>Loose bulk</span></div></div>
+      <div class="also-body">
+        <span class="also-txt"><span class="eyebrow">Also from Balar</span><span class="also-h">Coir pith (coco peat)</span><span class="also-p">Low EC and high EC, as blocks, bricks and loose bulk, for greenhouses, nurseries and landscaping. Specs on request.</span></span>
+        <span class="btn btn-navy">See coir pith &rarr;</span>
+      </div>
+    </a>
+    <a class="also" href="packaging/">
+      <div class="also-pic trip" role="img" aria-label="Sustainable packaging: bottle, jar and tube"><div class="tp"><img src="assets/packaging/bottle.webp" alt="" loading="lazy" decoding="async"></div><div class="tp"><img src="assets/packaging/jar.webp" alt="" loading="lazy" decoding="async"></div><div class="tp"><img src="assets/packaging/tube.webp" alt="" loading="lazy" decoding="async"></div></div>
+      <div class="also-body">
+        <span class="also-txt"><span class="eyebrow">Also from Balar</span><span class="also-h">Packaging</span><span class="also-p">Sustainable packaging made to your brand, custom and private label, exported by the container.</span></span>
+        <span class="btn btn-navy">See packaging &rarr;</span>
+      </div>
+    </a>
+  </div>
 </div></section>
 
 <div class="stats" id="stats"><div class="wrap">
@@ -1078,6 +1139,15 @@ document.getElementById("enquiry").addEventListener("submit", e => {
   if(!matchMedia("(hover: none)").matches || !("IntersectionObserver" in window)) return;
   const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("tv",e.isIntersecting)),{rootMargin:"-30% 0px -30% 0px"});
   document.querySelectorAll(".grade,.stat,.bc,.why-item,.pl-art").forEach(el=>io.observe(el));
+})();
+
+/* "Also from Balar" cards: fade up when scrolled into view */
+(function(){
+  const cards=[...document.querySelectorAll(".also-row .also")];
+  if(!cards.length||!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  cards.forEach(c=>{if(c.getBoundingClientRect().top>innerHeight) c.classList.add("pre")});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove("pre");io.unobserve(e.target)}}),{threshold:.12});
+  cards.forEach(c=>io.observe(c));
 })();
 </script>
 </body>
